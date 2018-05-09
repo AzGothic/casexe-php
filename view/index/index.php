@@ -1,6 +1,7 @@
 <?php
 
-$this->title = 'Casexe-PHP 7.0';
+/* define title */
+$this->title = $this->title . ' | Index';
 
 ?>
 

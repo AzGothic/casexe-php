@@ -39,6 +39,14 @@ class AppBase extends AppStatic
 
         /* set view */
         static::$app['view'] = new View;
+        if (self::i()->config->view) {
+            if (!empty(self::i()->config->view['layout'])) {
+                self::i()->view->layout = self::i()->config->view['layout'];
+            }
+            if (!empty(self::i()->config->view['title'])) {
+                self::i()->view->title = self::i()->config->view['title'];
+            }
+        }
 
         /* set request */
         static::$app['request'] = new Request;

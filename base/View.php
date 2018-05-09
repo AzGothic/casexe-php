@@ -10,9 +10,15 @@ use App;
 class View
 {
     public $layout = 'layout/index';
-    public $title  = 'Casexe-PHP 7.0';
+    public $title;
     public $content;
 
+    /**
+     * Rendering partials
+     * @param string $view
+     * @param array $params
+     * @return string html
+     */
     public function partial(string $view, $params = null) {
         $__viewPath = VIEW_PATH . $view . '.php';
         $__viewParams = $params;
@@ -34,6 +40,12 @@ class View
         return $partial;
     }
 
+    /**
+     * Rendering
+     * @param string $view
+     * @param array $params
+     * @return string html
+     */
     public function render($view, $params = null) {
         $this->content = $this->partial($view, $params);
 
