@@ -39,3 +39,5 @@ Create table `user` and user row to DB from
 ```
 /samples/sql.sql
 ```
+
+Test user email `casexe@example.com`, password `111111`
