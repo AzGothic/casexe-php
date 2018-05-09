@@ -18,6 +18,12 @@ if (!$env or !is_string($env)) {
 }
 define('APP_ENV', $env);
 
+if (APP_ENV === 'prod') {
+    error_reporting(0);
+    ini_set('display_startup_errors', 0);
+    ini_set('display_errors', 0);
+}
+
 /**
  * Application Type definition
  * for 'web' will be set in web/index.php

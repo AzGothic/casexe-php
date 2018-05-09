@@ -2,6 +2,8 @@
 
 namespace app\base;
 
+use app\base\exception\RedirectException;
+
 /**
  * AppBase class definition
  */
@@ -20,6 +22,16 @@ class AppBase extends AppStatic
     }
 
     protected function load($config) {
+        /* set config */
+        if ($config instanceof Config) {
+            static::$app['config'] = $config;
+        } elseif (is_array($config)) {
+            static::$app['config'] = new Config($config);
+        }
+        else {
+            throw new \Exception('Wrong config');
+        }
+
         /* set and start session */
         static::$app['session'] = new Session;
         if (self::i()->config->session) {
@@ -30,16 +42,6 @@ class AppBase extends AppStatic
             }
         }
         self::i()->session->start();
-
-        /* set config */
-        if ($config instanceof Config) {
-            static::$app['config'] = $config;
-        } elseif (is_array($config)) {
-            static::$app['config'] = new Config($config);
-        }
-        else {
-            throw new \Exception('Wrong config');
-        }
 
         /* set timezone */
         if (self::i()->config->timeZone) {
@@ -74,8 +76,16 @@ class AppBase extends AppStatic
         static::$app['db'] = new Db;
 
         /* process action */
-        $content = (new $controller())->$action();
-        echo $content;
+        $redirected = false;
+        try {
+            $content = (new $controller())->$action();
+        } catch (RedirectException $e) {
+            $redirected = true;
+        }
+
+        if (!$redirected) {
+            echo $content;
+        }
 
         /* close session */
         self::i()->session->close();

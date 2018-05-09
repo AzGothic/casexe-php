@@ -74,7 +74,8 @@ class Request
             return $this->route;
         }
 
-        $routeString = trim(parse_url($this->server('REQUEST_URI'), PHP_URL_PATH), '/');
+        $routeUri = $this->server('REQUEST_URI');
+        $routeString = trim(parse_url($routeUri, PHP_URL_PATH), '/');
         if ($routeString == 'index.php') {
             $routeString = '';
         }
@@ -88,10 +89,11 @@ class Request
         }
 
         return [
-            'string'     => $routeString,
-            'parts'      => $routeParts,
-            'controller' => $routeParts[0],
-            'action'     => $routeParts[1],
+            'uri'         => $routeUri,
+            'string'      => $routeString,
+            'parts'       => $routeParts,
+            'controller'  => $routeParts[0],
+            'action'      => $routeParts[1],
         ];
     }
 }

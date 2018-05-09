@@ -27,9 +27,9 @@ class Db extends PDO
         }
 
         $dsn = 'mysql:dbname=' . $config['dbname'] . ';host=' . $config['host'];
-        parent::__construct($dsn, $config['username'], $config['passwrod']);
+        parent::__construct($dsn, $config['username'], $config['password']);
 
-        $this->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $this->setAttribute(static::ATTR_DEFAULT_FETCH_MODE, static::FETCH_OBJ);
 
         return $this;
     }

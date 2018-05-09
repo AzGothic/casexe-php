@@ -17,6 +17,10 @@ class Controller
         return App::i()->request;
     }
 
+    public function response() {
+        return App::i()->response;
+    }
+
     public function view() {
         return App::i()->view;
     }
@@ -27,6 +31,10 @@ class Controller
 
     public function render($view, $params = null) {
         return $this->view()->render($view, $params);
+    }
+
+    public function redirect($url, $code = 302, $messageException = '') {
+        return $this->response()->redirect($url, $code, $messageException);
     }
 }
 

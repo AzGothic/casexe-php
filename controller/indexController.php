@@ -3,22 +3,14 @@
 namespace app\controller;
 
 use App;
+use app\controller\base\Auth;
+use app\model\User;
 
-class indexController extends \app\base\Controller
+class indexController extends Auth
 {
     public function indexAction() {
-//        $sth = App::i()->db->prepare("SELECT * FROM user LIMIT 1");
-//        $sth->execute();
-//
-//        $result = $sth->fetchAll();
-//        echo '<pre>';
-//        print_r($result);
-//        exit;
-
-//        App::i()->session->set('test', '1111');
-
         return $this->render('index/index', [
-            
+            'user' => User::get(),
         ]);
     }
 }
