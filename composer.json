@@ -1,0 +1,16 @@
+{
+    "name": "Notes",
+    "homepage": "http://azgothic.com",
+    "authors": [
+        {
+            "name": "AZ_Gothic",
+            "email": "zakirov.alex.ua@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "require-dev": {
+
+    }
+}
