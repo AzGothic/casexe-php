@@ -20,6 +20,17 @@ class AppBase extends AppStatic
     }
 
     protected function load($config) {
+        /* set and start session */
+        static::$app['session'] = new Session;
+        if (self::i()->config->session) {
+            if (!empty(self::i()->config->session['duration'])) {
+                self::i()->session->duration = self::i()->config->session['duration'];
+                ini_set('session.gc_maxlifetime', self::i()->config->session['duration']);
+                session_set_cookie_params(self::i()->config->session['duration']);
+            }
+        }
+        self::i()->session->start();
+
         /* set config */
         if ($config instanceof Config) {
             static::$app['config'] = $config;
@@ -59,11 +70,15 @@ class AppBase extends AppStatic
         $controller = '\\app\\controller\\' . $route['controller'] . 'Controller';
         $action     = $route['action'] . 'Action';
 
+        /* set and connect db */
+        static::$app['db'] = new Db;
+
         /* process action */
         $content = (new $controller())->$action();
         echo $content;
 
-        return self::i();
+        /* close session */
+        self::i()->session->close();
     }
 
     /**
