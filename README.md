@@ -44,9 +44,9 @@ Dump for MySQL DB
 ```
 
 Test users:
-Email `user1@example.com`, password `111111`
-Email `user2@example.com`, password `111111`
-Email `user3@example.com`, password `111111`
+- Email `user1@example.com`, password `111111`
+- Email `user2@example.com`, password `111111`
+- Email `user3@example.com`, password `111111`
 
 ## Project structure
 
