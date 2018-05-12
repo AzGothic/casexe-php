@@ -78,7 +78,7 @@ class AppBase extends AppStatic
         /* process action */
         $redirected = false;
         try {
-            $content = (new $controller())->$action();
+            $content = Controller::runAction($controller, $action);
         } catch (RedirectException $e) {
             $redirected = true;
         }

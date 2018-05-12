@@ -11,14 +11,22 @@ class ModelDb extends Model
 {
     public $table;
 
+    public function __construct() {
+        
+    }
+
     public function __get($name) {
         if ($name == 'db') {
-            return $this->db();
+            return self::db();
         }
     }
 
-    public function db() {
+    public static function db() {
         return App::i()->db;
+    }
+
+    public static function table() {
+        return (new static)->table;
     }
 }
 

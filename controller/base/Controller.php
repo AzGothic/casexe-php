@@ -5,7 +5,7 @@ namespace app\controller\base;
 use App;
 use app\model\User;
 
-class Auth extends \app\base\Controller
+class Controller extends \app\base\Controller
 {
     public function __construct() {
         parent::__construct();

@@ -77,10 +77,24 @@ class User extends \app\base\ModelDb
         $sth->bindParam(':value', $value, Db::PARAM_INT|Db::PARAM_STR);
         $sth->execute();
 
-        if (!$rows = $sth->fetchAll()) {
-            return false;
+        return $sth->fetch();
+    }
+
+    public static function plusPointsById($id, $plus) {
+        self::$user->points += $plus;
+        if (self::$user->points < 0) {
+            self::$user->points = 0;
         }
 
-        return $rows[0];
+        $sth = static::db()->prepare(
+                "UPDATE `" . static::table() . "` "
+                . "SET `points` = :points "
+                . "WHERE id = :id "
+                . "LIMIT 1"
+            );
+        $sth->bindParam(':id', $id, Db::PARAM_INT);
+        $sth->bindParam(':points', self::$user->points, Db::PARAM_INT);
+
+        return $sth->execute();
     }
 }

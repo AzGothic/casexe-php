@@ -5,5 +5,6 @@ $this->title = $this->title . ' | Index';
 
 ?>
 
-<div class="alert alert-primary" role="alert">Logged as '<?= $user->email ?>'</div>
-<a href="/auth/logout" class="btn btn-warning">Logout</a>
+<div class="text-center">
+    <a class="btn btn-success btn-lg btn-block" href="/lottery">Go to LOTTERY</a>
+</div>

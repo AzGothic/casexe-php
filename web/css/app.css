@@ -1,0 +1,11 @@
+.user_points_box {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#lottery_box {
+    border: 1px solid #28a745;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 20px 0;
+}
