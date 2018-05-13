@@ -12,7 +12,7 @@ class ModelDb extends Model
     public $table;
 
     public function __construct() {
-        
+        parent::__construct();
     }
 
     public function __get($name) {

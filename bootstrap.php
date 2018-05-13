@@ -7,6 +7,7 @@ define('BASE_PATH', __DIR__ . DIRECTORY_SEPARATOR);
 define('CONFIG_PATH', BASE_PATH . 'config'. DIRECTORY_SEPARATOR);
 define('VIEW_PATH', BASE_PATH . 'view'. DIRECTORY_SEPARATOR);
 define('MODULE_PATH', BASE_PATH . 'module'. DIRECTORY_SEPARATOR);
+define('MIGRATE_PATH', BASE_PATH . 'migrate'. DIRECTORY_SEPARATOR);
 
 /**
  * Environment definition
@@ -36,7 +37,10 @@ defined('APP_TYPE')
  * Autoloader definition
  */
 $autoload = require BASE_PATH . 'vendor/autoload.php';
-$autoload->addClassMap(['App' => BASE_PATH . 'base/App.php']);
+if (APP_TYPE == 'cli')
+    $autoload->addClassMap(['App' => BASE_PATH . 'base/AppCli.php']);
+else
+    $autoload->addClassMap(['App' => BASE_PATH . 'base/AppWeb.php']);
 $autoload->addPsr4('app\\', BASE_PATH);
 
 /**

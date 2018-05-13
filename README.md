@@ -17,6 +17,7 @@ Everything is written from zero state, nothing is stolen...
 - accept/reject/convert prize
 - withdraw EURO prize to creditCard
 - admin panel - set status SENT for item prizes and transfer EURO for winners
+- CLI - migrations, cli command for transfer all confirmed payments (can be used by Crontab)
 
 ### Installing
 
@@ -38,14 +39,19 @@ Set local configs to /config/ directory, examples in
 /samples/config/
 ```
 
-Dump for MySQL DB
+Use migration tool for creating DB structure and needed data
 
 ```
-/samples/sql.sql
+php app migrate
 ```
+
+### Usage
 
 Path to public:
-- `http://site`
+
+```
+http://site
+```
 
 Test users:
 - Email `user1@example.com`, password `111111`
@@ -53,10 +59,19 @@ Test users:
 - Email `user3@example.com`, password `111111`
 
 Path to admin panel:
-- `http://site/admin`
+
+```
+http://site/admin
+```
 
 Test admin:
 - Email `admin@example.com`, password `111111`
+
+Run transfer payments from command line:
+
+```
+php app transfer {LIMIT}
+```
 
 ## Project structure
 
@@ -65,17 +80,20 @@ Test admin:
     ├── config                  # configs
     ├── controller              # controllers for web
     │   └── base                # base controllers
+    ├── command                 # controllers for cli
     ├── view                    # views for web
     ├── model                   # models
     ├── web                     # public directory for web
     ├── module                  # modules
+    ├── migrate                 # DB migrations
     ├── vendor                  # composer vendors directory
     ├── samples                 # examples for install project
-    │   ├── config              # local config files
-    │   └── sql.sql             # DB dump
+    │   └── config              # local config files
     ├── bootstrap.php           # main loader file
     ├── composer.json           # composer config
     ├── composer.lock           # composer installed packages config
+    ├── app                     # cli loader
+    ├── app.bat                 # batch cli loader for Windows
     ├── .gitignore
     └── README.md
 
@@ -86,4 +104,13 @@ Test admin:
     ├── admin                   # admin users table
     ├── options                 # configurations for lottery
     ├── items                   # items for lottery
-    └── winners                 # winners table included user id, type of prize, value/item id
+    ├── winners                 # winners table included user id, type of prize, value/item id
+    └── migration_casexe        # technical table for migrations check
+
+## Extra
+
+Migrations create
+
+```
+php app migrate/create {NAME}
+```

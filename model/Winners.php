@@ -2,7 +2,6 @@
 
 namespace app\model;
 
-use App;
 use app\base\Db;
 
 class Winners extends \app\base\ModelDb
@@ -108,5 +107,31 @@ class Winners extends \app\base\ModelDb
         $sth->bindParam(':user_id', $userId, Db::PARAM_INT);
 
         return $sth->execute();
+    }
+
+    public static function getForTransfer($limit)
+    {
+        $sth = static::db()->prepare("
+            SELECT *
+            FROM `" . static::table() . "`
+            WHERE `type` = :type
+                AND `status` = :status
+            ORDER BY `id` ASC
+            LIMIT :limit
+        ");
+        $type   = self::TYPE_EURO;
+        $status = self::STATUS_ACCEPTED;
+        $sth->bindParam(':type', $type, Db::PARAM_INT);
+        $sth->bindParam(':status', $status, Db::PARAM_INT);
+        $sth->bindParam(':limit', $limit, Db::PARAM_INT);
+        $sth->execute();
+
+        if (!$winners = $sth->fetchAll())
+            return false;
+
+        foreach ($winners as $key => $winner)
+            $winners[$key] = new Winner($winner);
+
+        return $winners;
     }
 }

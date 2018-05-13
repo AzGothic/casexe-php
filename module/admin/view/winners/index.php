@@ -25,32 +25,36 @@ use app\model\Winners;
             <th scope="col">Actions</th>
         </tr>
         </thead>
+        <tbody>
         <?php foreach ($winners as $winner) : ?>
-            <td>
-                <?= $winner->user->name ?>
-            </td>
-            <td>
-                <?= $winner->typeText ?>
-                <strong>
-                    <?php if ($winner->type == Winners::TYPE_ITEM) : ?>
-                        <?= $winner->item->name ?>
-                    <?php else : ?>
-                        <?= $winner->value ?>
+            <tr>
+                <td>
+                    <?= $winner->user->name ?>
+                </td>
+                <td>
+                    <?= $winner->typeText ?>
+                    <strong>
+                        <?php if ($winner->type == Winners::TYPE_ITEM) : ?>
+                            <?= $winner->item->name ?>
+                        <?php else : ?>
+                            <?= $winner->value ?>
+                        <?php endif; ?>
+                    </strong>
+                </td>
+                <td>
+                    <?= $winner->statusText ?>
+                </td>
+                <td>
+                    <?php if ($winner->status == Winners::STATUS_ACCEPTED) : ?>
+                        <?php if ($winner->type == Winners::TYPE_ITEM) : ?>
+                            <button class="btn btn-success item_sent" data-winner="<?= $winner->id ?>">Sent</button>
+                        <?php else : ?>
+                            <button class="btn btn-success user_transfer" data-user="<?= $winner->user->id ?>">Transfer</button>
+                        <?php endif; ?>
                     <?php endif; ?>
-                </strong>
-            </td>
-            <td>
-                <?= $winner->statusText ?>
-            </td>
-            <td>
-                <?php if ($winner->status == Winners::STATUS_ACCEPTED) : ?>
-                    <?php if ($winner->type == Winners::TYPE_ITEM) : ?>
-                        <button class="btn btn-success item_sent" data-winner="<?= $winner->id ?>">Sent</button>
-                    <?php else : ?>
-                        <button class="btn btn-success user_transfer" data-user="<?= $winner->user->id ?>">Transfer</button>
-                    <?php endif; ?>
-                <?php endif; ?>
-            </td>
+                </td>
+            </tr>
         <?php endforeach; ?>
+        </tbody>
     </table>
 <?php endif; ?>

@@ -3,10 +3,11 @@
 namespace app\base;
 
 /**
- * Request definition class
+ * RequestCli definition class
  */
-class Request
+class RequestCli
 {
+    protected $commandParams = [];
     protected $route;
 
     public function __construct() {
@@ -21,44 +22,12 @@ class Request
         return null;
     }
 
-    public function isAjax() {
-        return (($this->server('HTTP_X_REQUESTED_WITH')
-            and strtolower($this->server('HTTP_X_REQUESTED_WITH')) == 'xmlhttprequest'));
-    }
-
-    public function isGet() {
-        return $this->getMethod() === 'GET';
-    }
-
-    public function isPost() {
-        return $this->getMethod() === 'POST';
-    }
-
-    public function getMethod() {
-        if ($this->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
-            return strtoupper($this->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
-        }
-        if ($this->server('REQUEST_METHOD')) {
-            return strtoupper($this->server('REQUEST_METHOD'));
-        }
-
-        return 'GET';
-    }
-
-    public function request($prop = null, $default = null) {
-        return $this->params($_REQUEST, $prop, $default);
-    }
-
-    public function get($prop = null, $default = null) {
-        return $this->params($_GET, $prop, $default);
-    }
-
-    public function post($prop = null, $default = null) {
-        return $this->params($_POST, $prop, $default);
-    }
-
     public function server($prop = null, $default = null) {
         return $this->params($_SERVER, $prop, $default);
+    }
+
+    public function command($prop = null, $default = null) {
+        return $this->params($this->commandParams, $prop, $default);
     }
 
     protected function params($props, $prop = null, $default = null) {
@@ -74,11 +43,20 @@ class Request
             return $this->route;
         }
 
-        $routeUri = $this->server('REQUEST_URI');
-        $routeString = strtolower(trim(parse_url($routeUri, PHP_URL_PATH), '/'));
-        if ($routeString == 'index.php') {
-            $routeString = '';
+        $routeUri = '';
+        $argv     = [];
+        if (!empty($this->server('argv'))) {
+            $argv = $this->server('argv');
         }
+        $commandLine = implode(' ', $argv);
+        if (!empty($argv[1]))
+            $routeUri = $argv[1];
+        if (count($argv) > 2) {
+            unset($argv[0], $argv[1]);
+            $this->commandParams = array_values($argv);
+        }
+
+        $routeString = strtolower(trim($routeUri, '/'));
         if (!$routeString) {
             $routeString = 'index/index/index';
         }
@@ -97,6 +75,7 @@ class Request
         }
 
         return [
+            'commandLine' => $commandLine,
             'uri'         => $routeUri,
             'string'      => $routeString,
             'parts'       => $routeParts,

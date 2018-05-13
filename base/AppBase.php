@@ -10,7 +10,7 @@ use app\base\exception\RedirectException;
 class AppBase extends AppStatic
 {
     public function __construct() {
-        return $this;
+
     }
 
     public function __get($name) {
@@ -31,6 +31,9 @@ class AppBase extends AppStatic
         else {
             throw new \Exception('Wrong config');
         }
+
+        /* set and connect db */
+        static::$app['db'] = new Db;
 
         /* set and start session */
         static::$app['session'] = new Session;
@@ -73,9 +76,6 @@ class AppBase extends AppStatic
             . '\\controller\\' . $route['controller'] . 'Controller';
         $action     = $route['action'] . 'Action';
 
-        /* set and connect db */
-        static::$app['db'] = new Db;
-
         /* process action */
         $redirected = false;
         try {
@@ -98,8 +98,8 @@ class AppBase extends AppStatic
      * @return object App::$instance
      */
     public static function init($config) {
-        if (!static::$instance or !(static::$instance instanceof App)) {
-            static::$instance = new self;
+        if (!static::$instance or !(static::$instance instanceof AppBase)) {
+            static::$instance = new static;
             static::$instance->load($config);
         }
 
