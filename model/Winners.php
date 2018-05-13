@@ -18,31 +18,39 @@ class Winners extends \app\base\ModelDb
 
     public $table = 'winners';
 
-    public static function getByUserId($userId = null) {
-        if (!$winner = self::existsByUserId($userId, true)) {
-            return $winner;
+    public static function getAll()
+    {
+        $sth = static::db()->prepare(
+            "SELECT * "
+            . "FROM `" . static::table() . "` "
+            . "ORDER BY `id` DESC "
+        );
+        $sth->execute();
+
+        if (!$winners = $sth->fetchAll()) {
+            return false;
         }
 
-        $winner->item = null;
-        if ($winner->type == self::TYPE_ITEM) {
-            $winner->item = Items::getById((int) $winner->value);
+        foreach ($winners as $key => $winner) {
+            $winners[$key] = new Winner($winner);
         }
 
-        return $winner;
+        return $winners;
     }
 
-    public static function existsByUserId($userId = null, $returnObj = false) {
+    public static function getByUserId($userId = null)
+    {
         if ($userId == null) {
             $userId = User::get()->id;
         }
 
         $sth = static::db()->prepare(
-                "SELECT * "
-                . "FROM `" . static::table() . "` "
-                . "WHERE `user_id` = :user_id "
-                . "ORDER BY `id` DESC "
-                . "LIMIT 1"
-            );
+            "SELECT * "
+            . "FROM `" . static::table() . "` "
+            . "WHERE `user_id` = :user_id "
+            . "ORDER BY `id` DESC "
+            . "LIMIT 1"
+        );
         $sth->bindParam(':user_id', $userId, Db::PARAM_INT);
         $sth->execute();
 
@@ -50,7 +58,12 @@ class Winners extends \app\base\ModelDb
             return false;
         }
 
-        return $returnObj ? $winner : true;
+        return new Winner($winner);
+    }
+
+    public static function existsByUserId($userId = null)
+    {
+        return (bool) self::getByUserId($userId);
     }
 
     public static function setWinner($userId, $type, $value, $status) {

@@ -69,7 +69,8 @@ class AppBase extends AppStatic
 
         /* routing */
         $route      = self::i()->request->route;
-        $controller = '\\app\\controller\\' . $route['controller'] . 'Controller';
+        $controller = '\\app' . ($route['module'] != 'index' ? "\\module\\" . $route['module'] : '')
+            . '\\controller\\' . $route['controller'] . 'Controller';
         $action     = $route['action'] . 'Action';
 
         /* set and connect db */

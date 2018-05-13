@@ -4,8 +4,9 @@
 $this->title = $this->title . ' | Login';
 
 ?>
+
 <h1>
-    Login
+    Admin Login
 </h1>
 
 <form method="POST" action="<?= App::i()->request->route['uri'] ?>">

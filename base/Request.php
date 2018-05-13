@@ -75,25 +75,34 @@ class Request
         }
 
         $routeUri = $this->server('REQUEST_URI');
-        $routeString = trim(parse_url($routeUri, PHP_URL_PATH), '/');
+        $routeString = strtolower(trim(parse_url($routeUri, PHP_URL_PATH), '/'));
         if ($routeString == 'index.php') {
             $routeString = '';
         }
         if (!$routeString) {
-            $routeString = 'index/index';
+            $routeString = 'index/index/index';
         }
 
         $routeParts = explode('/', $routeString);
-        if (count($routeParts) == 1) {
-            $routeParts[1] = 'index';
+        $module = $routeParts[0];
+        if (!is_dir(MODULE_PATH . $module)) {
+            $module = 'index';
+            $routeParts = array_combine(range(1, count($routeParts)), array_values($routeParts));
+            $routeParts[0] = $module;
+            ksort($routeParts);
+        }
+        for ($i = 1; $i <= 2; $i++) {
+            if (empty($routeParts[$i]))
+                $routeParts[$i] = 'index';
         }
 
         return [
             'uri'         => $routeUri,
             'string'      => $routeString,
             'parts'       => $routeParts,
-            'controller'  => $routeParts[0],
-            'action'      => $routeParts[1],
+            'module'      => $routeParts[0],
+            'controller'  => $routeParts[1],
+            'action'      => $routeParts[2],
         ];
     }
 }

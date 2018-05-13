@@ -12,7 +12,9 @@ class Payment extends \app\base\Model
         }
         $user = (new User)->find($userId);
 
-        if (!$winner = Winners::getByUserId($user->id) or $winner->status != Winners::STATUS_ACCEPTED) {
+        if (!$winner = Winners::getByUserId($user->id)
+            or $winner->type != Winners::TYPE_EURO
+            or $winner->status != Winners::STATUS_ACCEPTED) {
             return false;
         }
 

@@ -16,6 +16,7 @@ Everything is written from zero state, nothing is stolen...
 - lottery play
 - accept/reject/convert prize
 - withdraw EURO prize to creditCard
+- admin panel - set status SENT for item prizes and transfer EURO for winners
 
 ### Installing
 
@@ -43,10 +44,19 @@ Dump for MySQL DB
 /samples/sql.sql
 ```
 
+Path to public:
+- `http://site`
+
 Test users:
 - Email `user1@example.com`, password `111111`
 - Email `user2@example.com`, password `111111`
 - Email `user3@example.com`, password `111111`
+
+Path to admin panel:
+- `http://site/admin`
+
+Test admin:
+- Email `admin@example.com`, password `111111`
 
 ## Project structure
 
@@ -54,14 +64,15 @@ Test users:
     ├── base                    # base application directory, core
     ├── config                  # configs
     ├── controller              # controllers for web
-    │    └── base               # base controllers
+    │   └── base                # base controllers
     ├── view                    # views for web
     ├── model                   # models
     ├── web                     # public directory for web
+    ├── module                  # modules
     ├── vendor                  # composer vendors directory
     ├── samples                 # examples for install project
-    │    ├── config             # local config files
-    │    └── sql.sql            # DB dump
+    │   ├── config              # local config files
+    │   └── sql.sql             # DB dump
     ├── bootstrap.php           # main loader file
     ├── composer.json           # composer config
     ├── composer.lock           # composer installed packages config
@@ -72,6 +83,7 @@ Test users:
 
     .
     ├── user                    # users table
+    ├── admin                   # admin users table
     ├── options                 # configurations for lottery
     ├── items                   # items for lottery
     └── winners                 # winners table included user id, type of prize, value/item id

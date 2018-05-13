@@ -47,6 +47,8 @@ use app\model\{
                 <div>Choose Action</div>
                 <button class="btn btn-success btn-block" id="prize_accept">Accept</button>
                 <button class="btn btn-danger btn-block" id="prize_reject">Reject</button>
+            <?php elseif ($winner->status == Winners::STATUS_DONE) : ?>
+                <div><i>Added to Loyality points</i></div>
             <?php elseif ($winner->status == Winners::STATUS_REJECTED) : ?>
                 <div><i>Rejected</i></div>
             <?php endif; ?>

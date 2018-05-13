@@ -6,6 +6,7 @@
 define('BASE_PATH', __DIR__ . DIRECTORY_SEPARATOR);
 define('CONFIG_PATH', BASE_PATH . 'config'. DIRECTORY_SEPARATOR);
 define('VIEW_PATH', BASE_PATH . 'view'. DIRECTORY_SEPARATOR);
+define('MODULE_PATH', BASE_PATH . 'module'. DIRECTORY_SEPARATOR);
 
 /**
  * Environment definition

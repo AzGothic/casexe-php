@@ -7,6 +7,9 @@ namespace app\base;
  */
 class Model
 {
-    
+    public function __construct()
+    {
+
+    }
 }
 

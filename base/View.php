@@ -15,15 +15,25 @@ class View
 
     /**
      * Rendering partials
-     * @param string $view
+     * @param string|array $view
      * @param array $params
      * @return string html
      */
-    public function partial(string $view, $params = null) {
-        $__viewPath = VIEW_PATH . $view . '.php';
+    public function partial($view, $params = null) {
+        $module = 'index';
+        if (is_array($view)) {
+            if (!empty($view[1]))
+                $module = $view[1];
+            $view = $view[0];
+        }
+
+        if ($module == 'index')
+            $__viewPath = VIEW_PATH . "$view.php";
+        else
+            $__viewPath = MODULE_PATH . "$module/view/$view.php";
         $__viewParams = $params;
-        unset($view);
-        unset($params);
+        unset($module, $view, $params);
+
         ob_start();
         if ($__viewParams) {
             foreach ($__viewParams as $param => $value) {

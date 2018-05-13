@@ -1,6 +1,6 @@
 -- Author:  Z.Alex
 -- Created: 09.05.2018
--- Updated: 12.05.2018
+-- Updated: 13.05.2018
 
 CREATE TABLE `user` (
 	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -82,3 +82,20 @@ CREATE TABLE `winners` (
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
+
+
+CREATE TABLE `admin` (
+	`id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`email` VARCHAR(50) NULL DEFAULT NULL,
+	`password` VARCHAR(32) NULL DEFAULT NULL,
+	`name` VARCHAR(50) NULL DEFAULT NULL COMMENT 'Admin name',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `email` (`email`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
+
+-- admins
+INSERT INTO `admin` (`id`, `email`, `password`, `name`) VALUES (1, 'admin@example.com', '96e79218965eb72c92a549dd5a330112', 'Mega Admin');
