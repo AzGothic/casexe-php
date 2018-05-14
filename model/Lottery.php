@@ -69,16 +69,43 @@ class Lottery extends \app\base\Model
         switch ($winner->type) {
             case Winners::TYPE_ITEM:
                 Items::setStatusById($winner->item->id, Items::STATUS_ACCEPTED);
-            break;
+                break;
             case Winners::TYPE_EURO:
-            break;
+                break;
             case Winners::TYPE_POINTS:
             default:
                 User::plusPointsById($winner->user_id, $winner->value);
                 $newStatus = Winners::STATUS_DONE;
-            break;
+                break;
         }
 
+        return Winners::setStatusById($winner->id, $newStatus);
+    }
+
+    public static function changePrize($userId = null) {
+        if ($userId == null) {
+            $userId = User::get()->id;
+        }
+
+        if (!$winner = Winners::getByUserId($userId) or $winner->status != Winners::STATUS_WAITING) {
+            return false;
+        }
+
+        $newStatus = Winners::STATUS_DONE;
+        switch ($winner->type) {
+            case Winners::TYPE_ITEM:
+                $points = $winner->item->points;
+                break;
+            case Winners::TYPE_EURO:
+                $points = ceil($winner->value * Options::get('convertation_ratio'));
+                break;
+            case Winners::TYPE_POINTS:
+            default:
+                return false;
+                break;
+        }
+
+        User::plusPointsById($winner->user_id, (int) $points);
         return Winners::setStatusById($winner->id, $newStatus);
     }
 

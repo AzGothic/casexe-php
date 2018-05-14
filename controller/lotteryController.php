@@ -68,6 +68,20 @@ class lotteryController extends Controller
         return static::runAction($this, 'box');
     }
 
+    public function changeAction() {
+        if (!$this->request()->isAjax()) {
+            return $this->render('errors/denied');
+        }
+
+        if (!Winners::existsByUserId()) {
+            return $this->render('errors/denied');
+        }
+
+        Lottery::changePrize();
+
+        return static::runAction($this, 'box');
+    }
+
     public function rejectAction() {
         if (!$this->request()->isAjax()) {
             return $this->render('errors/denied');

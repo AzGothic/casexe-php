@@ -10,6 +10,7 @@ $(function() {
             .on('click', '.prizes_update', Lottery.getPrizes)
             .on('click', '#lottery_play', Lottery.play)
             .on('click', '#prize_accept', Lottery.acceptPrize)
+            .on('click', '#prize_change', Lottery.changePrize)
             .on('click', '#prize_to_card', Lottery.paymentPrize)
             .on('click', '#prize_reject', Lottery.rejectPrize)
 });
@@ -83,6 +84,18 @@ var Lottery = {
         }).done(function(response) {
             $('#lottery_box').empty().append(response);
             console.log('Prize accepted');
+            Lottery.getPoints();
+        });
+    },
+    changePrize: function() {
+        $('#lottery_box').empty().append('Processing...');
+        $.ajax({
+            method:     'POST',
+            url:        '/lottery/change',
+            dataType:   'HTML'
+        }).done(function(response) {
+            $('#lottery_box').empty().append(response);
+            console.log('Prize changed for points');
             Lottery.getPoints();
         });
     },
