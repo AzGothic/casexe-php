@@ -109,7 +109,7 @@ class Winners extends \app\base\ModelDb
         return $sth->execute();
     }
 
-    public static function getForTransfer($limit)
+    public static function getForTransfer(int $limit)
     {
         $sth = static::db()->prepare("
             SELECT *
@@ -121,6 +121,7 @@ class Winners extends \app\base\ModelDb
         ");
         $type   = self::TYPE_EURO;
         $status = self::STATUS_ACCEPTED;
+
         $sth->bindParam(':type', $type, Db::PARAM_INT);
         $sth->bindParam(':status', $status, Db::PARAM_INT);
         $sth->bindParam(':limit', $limit, Db::PARAM_INT);

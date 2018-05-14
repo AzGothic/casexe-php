@@ -7,7 +7,7 @@ use app\base\{
     helper\HelperDir
 };
 
-class MigrateController extends \app\base\ControllerCli
+class migrateController extends \app\base\ControllerCli
 {
     public function __construct()
     {
