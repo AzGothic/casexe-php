@@ -11,7 +11,12 @@ class transferController extends \app\base\ControllerCli
 {
     public function indexAction()
     {
-        $limit = (int) $this->request()->command(0, 10 /* default: 10 */);
+        /* specify names for command properties, not required  */
+        $this->request()->commandProperties([
+            'limit',
+        ]);
+
+        $limit = (int) $this->request()->command('limit', 10 /* default: 10 */);
         $this->_('Search winners, limit ' . $limit);
         $winners = Winners::getForTransfer($limit);
 

@@ -38,6 +38,16 @@ class RequestCli
         return (isset($props[$prop]) ? $props[$prop] : $default);
     }
 
+    public function commandProperties(array $props)
+    {
+        foreach ($props as $key => $name) {
+            if ($this->command($key) !== null)
+                $this->commandParams[$name] = $this->command($key);
+        }
+
+        return $this;
+    }
+
     public function route() {
         if ($this->route !== null) {
             return $this->route;

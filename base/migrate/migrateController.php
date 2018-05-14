@@ -50,7 +50,12 @@ class migrateController extends \app\base\ControllerCli
 
     public function createAction()
     {
-        if (!$name = $this->request()->command(0))
+        /* specify names for command properties, not required  */
+        $this->request()->commandProperties([
+            'name',
+        ]);
+
+        if (!$name = $this->request()->command('name'))
             return $this->_('ERROR: Empty migration name parameter');
 
         if (!$name = preg_replace('~[^0-9A-z_]+~iu', '', $name))
